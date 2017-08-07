@@ -1,0 +1,14 @@
+<%- include('../partials/head') %>
+
+<div class="container">
+	<div class="row">
+		<div class="col-xs-12">
+			<form action="/admin/meetup/:search" method="GET" class="form-group">
+				<input type="text" class="text" name="searchterm" />
+				<input type="submit" />
+			</form>
+		</div>
+	</div>
+</div>
+
+<%- include('../partials/foot') %>

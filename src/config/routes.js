@@ -29,4 +29,7 @@ router.route('/differentiate')
 router.route('/events/new')
       .get(authenticateUser, usersController.renderCreateEventChoices);
 
+router.route('/events/new/meetup')
+      .get(authenticateUser, usersController.renderPopulateFromMeetupPage)
+
 module.exports = router;

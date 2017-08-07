@@ -184,8 +184,31 @@ form#register {
 }
 
 /* SPECIAL STYLES FOR MEETUP IMPORT BUTTON */
+
 #event_from_meetup_button.button.dark_red_background {
-	border-radius: 100%;
+	display: block;
+	position: relative;
+	width: 150px;
+	max-width: 150px;
+	max-height: 150px;
+	border-radius: 50%;
+	margin: 0 auto;
+	padding: 0 0 150px 0;
+	border: 5px solid #fff;
+}
+
+.badge_content {
+	display: inline;
+	position: absolute;
+	top: 15%;
+	left: 22%;
+	text-align: center;
+	font-weight: 400;
+}
+
+i.fa {
+	padding: 10px 0;
+	font-size: 2.5em;
 }
 
 /* Overrides */

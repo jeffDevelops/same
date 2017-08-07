@@ -39,10 +39,15 @@ function renderCreateEventChoices(req, res) {
   res.render('events/new.ejs');
 }
 
+function renderPopulateFromMeetupPage (req, res) {
+  res.render('events/new_with_meetup');
+}
+
 module.exports = {
   getLanding: getLanding,
   postRegister: postRegister,
   postLogin: postLogin,
   differentiateUser: differentiateUser,
-  renderCreateEventChoices: renderCreateEventChoices
+  renderCreateEventChoices: renderCreateEventChoices,
+  renderPopulateFromMeetupPage: renderPopulateFromMeetupPage
 };

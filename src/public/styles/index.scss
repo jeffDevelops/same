@@ -85,6 +85,8 @@ nav.navbar h1 {
 	border-bottom: 1px solid #fff;
 }
 
+/* END NAVBAR STYLES */
+
 .logo {
 	font-size: 4em;
 	font-weight: 700;
@@ -109,10 +111,7 @@ form.login {
 	color: #fff
 }
 
-button:active {
-	outline: none;
-}
-
+button:active, 
 button:focus {
 	outline: none;
 }
@@ -135,12 +134,15 @@ form#register {
 	display: none;
 }
 
-#split .vert_center {
+#split .vert_center,
+#choices_for_new_event .vert_center {
 	height: 200px;
 	margin: 30vh 0 0 0;
 }
 
-#split button {
+#split a.button,
+#choices_for_new_event a.button, {
+	color: #fff;
 	padding: 10px 20px;
 	border: 1px solid white;
 	border-radius: 5px;
@@ -148,13 +150,44 @@ form#register {
 	font-size: 1em;
 }
 
+#split a:hover,
+#choices_for_new_event a:hover,
+#split a:active,
+#choices_for_new_event a:active,
+#split a:focus,
+#choices_for_new_event a:focus,
+ {
+	color: $darkRed;
+	text-decoration: none;
+}
+
 .dark_red_background {
 	background: $magenta;
+}
+
+.dark_red_background:hover,
+.dark_red_background:active,
+.dark_red_background:focus {
+	background: #fff;
+	color: $darkRed;
 }
 
 .magenta_background {
 	background: $darkRed;
 }
+
+.magenta_background:hover,
+.magenta_background:active,
+.magenta_background:focus {
+	background: #fff;
+	color: $darkRed;
+}
+
+/* SPECIAL STYLES FOR MEETUP IMPORT BUTTON */
+#event_from_meetup_button.button.dark_red_background {
+	border-radius: 100%;
+}
+
 /* Overrides */
 
 .btn-default:hover {

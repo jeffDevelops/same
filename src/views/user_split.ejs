@@ -1,8 +1,6 @@
 <%- include('partials/head') %>
 
 <!--RESPONSIVE NAVBAR-->
-
-
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
@@ -26,13 +24,16 @@
   </div><!-- /.container-fluid -->
 </nav>
 
+<!--BACKGROUND -->
 <div class="skew">
 </div>
+
+<!--BUTTONS-->
 <div id="split" class="container">
 		<div class="row vert_center">
-			<button class="dark_red_background col-xs-5">I am creating an event.</button>
+			<a href="/events/new" id="newEvent" class="button dark_red_background col-xs-5">I am creating an event.</a>
 			<div class="col-xs-2"></div>
-			<button class="magenta_background col-xs-5">I am attending an event.</button>
+			<a href="#" class="button magenta_background col-xs-5">I am attending an event.</a>
 		</div>
 </div>
 

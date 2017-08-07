@@ -1,4 +1,4 @@
-<%- include('partials/head') %>
+<%- include('../partials/head') %>
 
 <!--RESPONSIVE NAVBAR-->
 <nav class="navbar navbar-default">
@@ -24,17 +24,15 @@
   </div><!-- /.container-fluid -->
 </nav>
 
-<!--BACKGROUND -->
 <div class="skew">
 </div>
 
-<!--BUTTONS-->
-<div id="split" class="container">
-		<div class="row vert_center">
-			<a href="/events/new" id="newEvent" class="button dark_red_background col-xs-5">I am creating an event.</a>
-			<div class="col-xs-2"></div>
-			<a href="#" class="button magenta_background col-xs-5">I am attending an event.</a>
-		</div>
+<div id="choices_for_new_event" class="container">
+	<div class="row vert_center">
+		<a href="/admin/meetup" id="event_from_meetup_button" class="button dark_red_background col-xs-5">Import an event from Meetup</a>
+		<div class="col-xs-2"></div>
+		<a href="/event/create" class="button magenta_background col-xs-5">Create an event from scratch</a>
+	</div>
 </div>
 
-<%- include('partials/foot') %>
+<%- include('../partials/foot') %>

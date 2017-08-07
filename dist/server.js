@@ -43,15 +43,8 @@ app.use(function(req, res, next) {
 
 var routes = require('./config/routes');
 app.use(routes);
-//LANDING PAGE
-// app.get('/', function(req, res) {
-//   res.render('landing');
-// });
 
-//ADMIN STEP 1
-app.get('/admin', function(req, res) {
-  res.render('admin/admin');
-});
+
 
 //ADMIN MEETUP STEP 2 
 app.get('/admin/meetup', function(req, res) {

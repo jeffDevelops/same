@@ -1,0 +1,11 @@
+<%- include('../partials/head')%>	
+
+	<ul>
+		<% if (body) { %>
+			<% for (let i; i < body.length; i++) { %>
+				<li><%= { body[i] } %></li>
+			<% } %>
+		<% } %>
+	</ul>
+
+<%- include('../partials/foot') %>

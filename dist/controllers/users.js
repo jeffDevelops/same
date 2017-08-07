@@ -35,9 +35,14 @@ function differentiateUser(req, res) {
   res.render('user_split.ejs');
 }
 
+function renderCreateEventChoices(req, res) {
+  res.render('events/new.ejs');
+}
+
 module.exports = {
   getLanding: getLanding,
   postRegister: postRegister,
   postLogin: postLogin,
   differentiateUser: differentiateUser,
+  renderCreateEventChoices: renderCreateEventChoices
 };

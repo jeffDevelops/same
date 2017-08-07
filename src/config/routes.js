@@ -12,6 +12,8 @@ function authenticateUser(req, res, next) {
   res.redirect('/');
 }
 
+//USERS ROUTES
+
 router.route('/')
       .get(usersController.getLanding);
 
@@ -22,6 +24,9 @@ router.route('/login')
       .post(usersController.postLogin);
 
 router.route('/differentiate')
-      .get(usersController.differentiateUser);
+      .get(authenticateUser, usersController.differentiateUser);
+
+router.route('/events/new')
+      .get(authenticateUser, usersController.renderCreateEventChoices);
 
 module.exports = router;

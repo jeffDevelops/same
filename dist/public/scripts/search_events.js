@@ -12,47 +12,76 @@ $(document).ready(function () {
     $.ajax({
       type: 'POST',
       url: '/events/new/meetup',
-      data: serializedStuff
+      data: serializedStuff,
+      dataType: 'json'
     }).done(function (data) {
       var results = data.results; //Everything we get back
-      function Event(name, org, time, address, city, state, zip, url) {
+      function Event(resultNumber, name, org, time, address, city, state, zip, url) {
+        this.resultNumber = resultNumber;
         this.name = name;
         this.org = org;
         this.time = time;
-        this.address = address || 'No address was provided.';
+        this.address = address;
         this.city = city;
         this.state = state;
         this.zip = zip;
         this.url = url;
       }
 
-      var name, org, address, city, state, zip, url;
+      var event, resultNumber, name, org, time, prettyDate, address, city, state, zip, url;
+
       for (var i = 0; i < results.length; i++) {
+        resultNumber = i;
         if ('venue' in results[i]) {
           address = results[i].venue.address_1;
-          city = results[i].venue.city;
-          state = results[i].venue.state;
-          zip = results[i].venue.zip;
+          if ('city' in results[i].venue) {
+            city = results[i].venue.city;
+          } else {
+            city = '';
+          }
+          if ('state' in results[i].venue) {
+            state = results[i].venue.state;
+          } else {
+            state = '';
+          }
+          if ('zip' in results[i].venue) {
+            zip = results[i].venue.zip;
+          } else {
+            zip = '';
+          }
         } else {
-          address = ' ';
-          city = ' ';
-          state = ' ';
-          zip = ' ';
+          address = '';
+          city = '';
+          state = '';
+          zip = '';
         }
         if ('group' in results[i]) {
           org = results[i].group.name;
         } else {
           org = ' ';
         }
-        name = results[i].name;
-        url = results[i].link;
-        var time = results[i].time;
-        var prettyDate = prettifyDate(time);
-        var _event = new Event(name, org, prettyDate, address, city, state, zip, url);
-        events.push(_event);
+        if ('name' in results[i]) {
+          name = results[i].name;
+        } else {
+          name = '';
+        }
+        if ('url' in results[i]) {
+          url = results[i].link;
+        } else {
+          url = '';
+        }
+        if ('time' in results[i]) {
+          time = results[i].time;
+          prettyDate = prettifyDate(time);
+        } else {
+          time = '';
+        }
+
+        event = new Event(resultNumber, name, org, prettyDate, address, city, state, zip, url);
+        events.push(event);
       }
       events.forEach(function (entry) {
-        var html = '<div class="row entry" data-event-id="' + event._id + '">' + '<div class="col-xs-12">' + '<div class="card">' + '<div class="card-block">' + '<a class="clickable" href="' + entry.url + '">' + '<h4 class="card-title">' + entry.name.substr(0, 60) + '...' + '</h4>' + '<h6 class="card-subtitle mb-2 text-muted">' + entry.org + '</h6>' + '</a>' + '<p class="card-text">' + entry.time + '</p>' + '<p class="card-text">' + entry.address + '</p>' + '<p class="card-text">' + entry.city + ' ' + entry.state + ' ' + entry.zip + '</p>' + '</div>' + '<button class="import_button btn">Import This Event</button>' + '</div>' + '</div>' + '</div>';
+        var html = '<div class="row entry" data-event-id="' + entry.resultNumber + '">' + '<div class="col-xs-12">' + '<div class="card">' + '<div class="card-block">' + '<a class="clickable" href="' + entry.url + '">' + '<h4 class="card-title">' + entry.name.substr(0, 60) + '...' + '</h4>' + '<h6 class="card-subtitle mb-2 text-muted">' + entry.org + '</h6>' + '</a>' + '<p class="card-text">' + entry.time + '</p>' + '<p class="card-text">' + entry.address + '</p>' + '<p class="card-text">' + entry.city + ' ' + entry.state + ' ' + entry.zip + '</p>' + '</div>' + '<form action="/events/new/meetup/confirm" method="POST">' + '<button class="import_button btn">Import This Event</button>' + '</form>' + '</div>' + '</div>' + '</div>';
         $('#search_results').append(html);
       });
     });
@@ -67,9 +96,17 @@ $(document).ready(function () {
     });
   });
 
-  $('#search_results').on('click', '.import_button', function () {
+  $('#search_results').on('click', '.entry .import_button', function (event) {
     var id = $(this).parents('.entry').data('event-id');
-    console.log('id', id);
+    var eventToSave = events[id];
+    delete eventToSave.resultNumber;
+    console.log(eventToSave);
+    $.ajax({
+      type: 'POST',
+      url: '/events/new/meetup/confirm',
+      data: eventToSave,
+      dataType: 'json'
+    });
   });
 });
 

@@ -4,6 +4,8 @@ const keys = require('../keys.js');
 const request = require('request');
 const bodyParser = require('body-parser');
 
+const db = require('../models/index.js');
+
 function getLanding(req, res) {
   res.render('landing.ejs', { 
     signupMessage: req.flash('signupMessage'), 
@@ -64,6 +66,15 @@ function searchForEvent(req, res) {
   });
 }
 
+function confirmEvent(req, res) {
+  let eventToSave = req.body;
+  db.Event.create(eventToSave, function(error, createdEvent) {
+    if(error) throw error;
+    createdEvent.save();
+    res.render('events/confirm_new.ejs', {event: createdEvent});
+  });
+}
+
 module.exports = {
   getLanding: getLanding,
   postRegister: postRegister,
@@ -72,5 +83,6 @@ module.exports = {
   differentiateUser: differentiateUser,
   renderCreateEventChoices: renderCreateEventChoices,
   renderPopulateFromMeetupPage: renderPopulateFromMeetupPage,
-  searchForEvent: searchForEvent
+  searchForEvent: searchForEvent,
+  confirmEvent: confirmEvent
 };

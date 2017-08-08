@@ -45,4 +45,7 @@ router.route('/events/new/meetup')
 router.route('/events/new/meetup')
       .post(usersController.searchForEvent);
 
+router.route('/events/new/meetup/confirm')
+      .post(usersController.confirmEvent);
+
 module.exports = router;

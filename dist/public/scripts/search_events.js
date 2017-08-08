@@ -45,21 +45,31 @@ $(document).ready(function () {
           org = ' ';
         }
         name = results[i].name;
+        url = results[i].link;
         var time = results[i].time;
         var prettyDate = prettifyDate(time);
-        var _event = new Event(name, org, prettyDate, address, city, state, zip);
+        var _event = new Event(name, org, prettyDate, address, city, state, zip, url);
         events.push(_event);
       }
       events.forEach(function (entry) {
-        console.log(entry);
-        var html = '<div class="row">' + '<div class="col-xs-12">' + '<div class="card">' + '<div class="card-block">' + '<h4 class="card-title">' + '</h4>' + '<h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>' + '<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card\'s content.</p>' + '<a href="#" class="card-link">Card link</a>' + '<a href="#" class="card-link">Another link</a>' + '</div>' + '</div>' + '</div>' + '</div>';
-        $('#new_with_meetup').append(html);
+        var html = '<div class="row entry" data-event-id="' + event._id + '">' + '<div class="col-xs-12">' + '<div class="card">' + '<div class="card-block">' + '<a class="clickable" href="' + entry.url + '">' + '<h4 class="card-title">' + entry.name.substr(0, 60) + '...' + '</h4>' + '<h6 class="card-subtitle mb-2 text-muted">' + entry.org + '</h6>' + '</a>' + '<p class="card-text">' + entry.time + '</p>' + '<p class="card-text">' + entry.address + '</p>' + '<p class="card-text">' + entry.city + ' ' + entry.state + ' ' + entry.zip + '</p>' + '</div>' + '<button class="import_button btn">Import This Event</button>' + '</div>' + '</div>' + '</div>';
+        $('#search_results').append(html);
       });
     });
-    $('#new_with_meetup form').change(function () {
+    $('#searchbar').click(function () {
+      //Clear the array and clear search results from page
       events = [];
-      console.log(events);
+      $('#search_results').empty();
     });
+    $('#searchbar').on('input', function () {
+      events = [];
+      $('#search_results').empty();
+    });
+  });
+
+  $('#search_results').on('click', '.import_button', function () {
+    var id = $(this).parents('.entry').data('event-id');
+    console.log('id', id);
   });
 });
 
@@ -87,7 +97,6 @@ function prettifyDate(date) {
 
   if (date.getUTCMinutes() < 10) {
     minutes = '0' + date.getUTCMinutes();
-    console.log(minutes);
   } else {
     minutes = date.getUTCMinutes();
   }

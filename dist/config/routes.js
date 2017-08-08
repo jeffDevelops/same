@@ -26,6 +26,10 @@ router.route('/register')
 router.route('/login')
       .post(usersController.postLogin);
 
+//Log User Out
+router.route("/logout")
+  .get(usersController.getLogout);
+
 //Renders split users' experience page
 router.route('/differentiate')
       .get(authorizeUser, usersController.differentiateUser);

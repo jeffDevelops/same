@@ -33,6 +33,11 @@ function postLogin(req, res, next) {
   return loginStrategy(req, res, next);
 }
 
+function getLogout(request, response, next) {
+  request.logout();
+  response.redirect('/');
+}
+
 function differentiateUser(req, res) {
   console.log('Hooray, something new is happening!');
   res.render('user_split.ejs');
@@ -63,6 +68,7 @@ module.exports = {
   getLanding: getLanding,
   postRegister: postRegister,
   postLogin: postLogin,
+  getLogout: getLogout,
   differentiateUser: differentiateUser,
   renderCreateEventChoices: renderCreateEventChoices,
   renderPopulateFromMeetupPage: renderPopulateFromMeetupPage,

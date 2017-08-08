@@ -1,14 +1,41 @@
 <%- include('../partials/head') %>
 
+<!--RESPONSIVE NAVBAR-->
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+    	<h1 class="logo">same</h1>
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="border_bottom"><a href="#">My Events</a></li>
+        <li><a href="#">My Connections</a></li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
 <div class="skew">
 </div>
 
-<div class="container">
+<div id="new_with_meetup" class="container">
 	<div class="row">
 		<div class="col-xs-12">
-			<form action="/admin/meetup/:search" method="GET" class="form-group">
-				<input type="text" class="text" name="searchterm" />
-				<input type="submit" />
+			<form action="/events/new/meetup" method="post">
+        <div class="form-group">
+          <label for="search">Search For Your Event On Meetup</label>
+  				<input id="search" type="text" class="text form-control" name="searchterm" placeholder="My Super Awesome Event"/>
+        </div>
+        <input type="submit" value="Search" />
 			</form>
 		</div>
 	</div>

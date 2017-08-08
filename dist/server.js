@@ -75,7 +75,7 @@ app.get('/admin/meetup/:search', function(req, res) {
     }
     body = JSON.parse(body);
     console.log(body);
-    res.render('admin/result', body);
+    res.json('admin/result', body);
   });
 });
 

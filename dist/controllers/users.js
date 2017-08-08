@@ -1,5 +1,8 @@
 /* jshint esversion: 6 */
 const passport = require('passport');
+const keys = require('../keys.js');
+const request = require('request');
+const bodyParser = require('body-parser');
 
 function getLanding(req, res) {
   res.render('landing.ejs', { 
@@ -43,11 +46,25 @@ function renderPopulateFromMeetupPage (req, res) {
   res.render('events/new_with_meetup');
 }
 
+function searchForEvent(req, res) {
+  console.log("HIT");
+  let URL = `https://api.meetup.com/find/events/?text=${req.body.searchterm}&key=${keys.meetupAPIKey}`;
+  request(URL, function(error, response, body) {
+    if (error) {
+      console.log(error);
+      return;
+    }
+    body = JSON.parse(body);
+    res.json({results: body});
+  });
+}
+
 module.exports = {
   getLanding: getLanding,
   postRegister: postRegister,
   postLogin: postLogin,
   differentiateUser: differentiateUser,
   renderCreateEventChoices: renderCreateEventChoices,
-  renderPopulateFromMeetupPage: renderPopulateFromMeetupPage
+  renderPopulateFromMeetupPage: renderPopulateFromMeetupPage,
+  searchForEvent: searchForEvent
 };

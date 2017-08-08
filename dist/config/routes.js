@@ -7,29 +7,38 @@ const passport = require('passport');
 
 const usersController = require('../controllers/users');
 
-function authenticateUser(req, res, next) {
+function authorizeUser(req, res, next) {
   if (req.isAuthenticated()) return next();
   res.redirect('/');
 }
 
 //USERS ROUTES
 
+//Landing page
 router.route('/')
       .get(usersController.getLanding);
 
+//Posts new email and password
 router.route('/register')
       .post(usersController.postRegister);
 
+//Posts login info for Passport
 router.route('/login')
       .post(usersController.postLogin);
 
+//Renders split users' experience page
 router.route('/differentiate')
-      .get(authenticateUser, usersController.differentiateUser);
+      .get(authorizeUser, usersController.differentiateUser);
 
+//Renders new event choices page (Meetup or form)
 router.route('/events/new')
-      .get(authenticateUser, usersController.renderCreateEventChoices);
+      .get(authorizeUser, usersController.renderCreateEventChoices);
+
+//Renders new event via Meetup page
+router.route('/events/new/meetup')
+      .get(usersController.renderPopulateFromMeetupPage);
 
 router.route('/events/new/meetup')
-      .get(authenticateUser, usersController.renderPopulateFromMeetupPage)
+      .post(usersController.searchForEvent);
 
 module.exports = router;

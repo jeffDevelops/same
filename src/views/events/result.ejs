@@ -1,9 +1,12 @@
 <%- include('../partials/head')%>	
 
+<div class="skew">
+</div>
+
 	<ul>
 		<% if (body) { %>
 			<% for (let i; i < body.length; i++) { %>
-				<li><%= { body[i] } %></li>
+				<li><%= { body } %></li>
 			<% } %>
 		<% } %>
 	</ul>

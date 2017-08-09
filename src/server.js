@@ -15,7 +15,7 @@ const express = require('express'),
 
 const keys = require('./keys.js');
 
-mongoose.connect('mongodb://localhost/same');
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/same');
 
 app.use(morgan('dev'));
 app.use(cookieParser());

@@ -1,6 +1,6 @@
 /* jshint esversion: 6 */
 const passport = require('passport');
-const keys = require('../keys.js');
+const keys = require('../env.js');
 const request = require('request');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');

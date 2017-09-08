@@ -3,10 +3,12 @@ const passport = require('passport');
 const keys = require('../keys.js');
 const request = require('request');
 const bodyParser = require('body-parser');
+const methodOverride = require('method-override');
+const sanitize = require('sanitize-html');
 
-const db = require('../models/index.js');
+const db = require('../models/index.js'); 
 
-function getLanding(req, res) {
+function getLanding(req, res) { //hi
   res.render('landing.ejs', { 
     signupMessage: req.flash('signupMessage'), 
     loginMessage: req.flash('loginMessage') 
@@ -14,8 +16,6 @@ function getLanding(req, res) {
 }
 
 function postRegister(req, res, next) {
-  console.log('Signup route hit!');
-  console.log(req.body);
   let signupStrategy = passport.authenticate('local-signup', {
     successRedirect: '/differentiate',
     failureRedirect: '/',
@@ -26,7 +26,6 @@ function postRegister(req, res, next) {
 } 
 
 function postLogin(req, res, next) {
-  console.log('Oh, wow thats me!');
   var loginStrategy = passport.authenticate('local-login', {
     successRedirect: '/differentiate',
     failureRedirect: '/',
@@ -49,29 +48,44 @@ function renderCreateEventChoices(req, res) {
   res.render('events/new.ejs');
 }
 
-function renderPopulateFromMeetupPage (req, res) {
+function renderSearch (req, res) {
   res.render('events/new_with_meetup');
 }
 
 function searchForEvent(req, res) {
-  console.log("HIT");
   let URL = `https://api.meetup.com/find/events/?text=${req.body.searchterm}&key=${keys.meetupAPIKey}`;
   request(URL, function(error, response, body) {
-    if (error) {
-      console.log(error);
-      return;
-    }
+    if (error) throw error;
     body = JSON.parse(body);
     res.json({results: body});
   });
 }
 
-function confirmEvent(req, res) {
-  let eventToSave = req.body;
-  db.Event.create(eventToSave, function(error, createdEvent) {
-    if(error) throw error;
-    createdEvent.save();
-    res.render('events/confirm_new.ejs', {event: createdEvent});
+function populateForm(req, res) {
+    console.log('populate form route hit');
+    res.render('events/confirm_new', {eventToSave: req.body});
+}
+
+function saveEvent(req, res) {
+  db.Event.create({
+      name: req.body.name,
+      organization: req.body.organization,
+      time: req.body.time,
+      address: req.body.address,
+      city: req.body.city,
+      state: req.body.state,
+      zip: req.body.zip,
+      description: req.body.description
+    }, function(err, createdEvent) {
+      if (err) throw err;
+      res.redirect('/events');
+    });
+}
+
+function renderMyEvents(req, res) {
+  db.Event.find({}, function(err, docs) {
+    if (err) throw err;
+    res.render('events/my_events',{ myEvents: docs});
   });
 }
 
@@ -82,7 +96,9 @@ module.exports = {
   getLogout: getLogout,
   differentiateUser: differentiateUser,
   renderCreateEventChoices: renderCreateEventChoices,
-  renderPopulateFromMeetupPage: renderPopulateFromMeetupPage,
+  renderSearch: renderSearch,
   searchForEvent: searchForEvent,
-  confirmEvent: confirmEvent
+  populateForm: populateForm,
+  saveEvent: saveEvent,
+  renderMyEvents: renderMyEvents //EVENTS INDEX 
 };

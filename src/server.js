@@ -11,7 +11,8 @@ const express = require('express'),
       session = require('express-session'),
       flash = require('connect-flash'),
       morgan = require('morgan'),
-      cookieParser = require('cookie-parser');
+      cookieParser = require('cookie-parser'),
+      methodOverride = require('method-override');
 
 const keys = require('./keys.js');
 
@@ -25,6 +26,8 @@ app.set('view engine', 'ejs');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+
+app.use(methodOverride('_method'));
 
 //Serve static assets from public directory
 app.use(express.static('dist/public'));

@@ -2,7 +2,6 @@
 const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser');
-const methodOverride = require('method-override');
 const passport = require('passport');
 
 const usersController = require('../controllers/users');
@@ -38,14 +37,22 @@ router.route('/differentiate')
 router.route('/events/new')
       .get(authorizeUser, usersController.renderCreateEventChoices);
 
-//Renders new event via Meetup page
-router.route('/events/new/meetup')
-      .get(usersController.renderPopulateFromMeetupPage);
-
-router.route('/events/new/meetup')
+//Renders new event in a confirmation form via Meetup page
+router.route('/events/new/search')
+      .get(authorizeUser, usersController.renderSearch)
       .post(usersController.searchForEvent);
 
-router.route('/events/new/meetup/confirm')
-      .post(usersController.confirmEvent);
+
+router.route('/events/new/meetup')
+      .post(authorizeUser, usersController.saveEvent)
+      .get(usersController.searchForEvent);
+
+router.route('/events/new/import')
+      .post(usersController.populateForm);
+
+//EVENTS INDEX
+router.route('/events')
+      .get(authorizeUser, usersController.renderMyEvents);
+
 
 module.exports = router;

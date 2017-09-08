@@ -2,17 +2,13 @@
 const LocalStrategy = require('passport-local').Strategy;
 const User = require('../models/user');
 
-console.log('Hello?');
-
 module.exports = function(passport) {
 
   passport.serializeUser(function(user, callback) {
-    console.log('User serialized.');
     callback(null, user.id);
   });
 
   passport.deserializeUser(function(id, callback) {
-    console.log('User deserialized');
     User.findById(id, function(error, user) {
       callback(error, user);
     });

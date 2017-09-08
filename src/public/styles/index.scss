@@ -235,6 +235,10 @@ i.fa {
 	color: $darkRed;
 }
 
+.card p {
+	margin: 0;
+}
+
 .clickable {
 	color: $darkRed;
 }
@@ -272,6 +276,26 @@ i.fa {
 	border: 2px solid $magenta;
 }
 
+#confirm .state {
+	padding: 0 5px 0 0;
+}
+
+#confirm .zip {
+	padding: 0 0 0 5px;
+}
+
+.back_button {
+	position: absolute;
+	top: 5px;
+	left: 3%;
+	font-size: .7em;
+	font-weight: 300;
+	color: #fff;
+}
+
+.back_button:hover {
+	color: $magenta;
+}
 /* Overrides */
 
 .btn-default:hover {

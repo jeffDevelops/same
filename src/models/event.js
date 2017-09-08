@@ -10,6 +10,7 @@ const Event = new Schema({
   city: String,
   state: String,
   zip: String,
+  description: String,
   url: String
 });
 

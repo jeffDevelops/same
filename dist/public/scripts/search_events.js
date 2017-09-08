@@ -11,12 +11,12 @@ $(document).ready(function () {
     console.log(serializedStuff);
     $.ajax({
       type: 'POST',
-      url: '/events/new/meetup',
+      url: '/events/new/search',
       data: serializedStuff,
       dataType: 'json'
     }).done(function (data) {
       var results = data.results; //Everything we get back
-      function Event(resultNumber, name, org, time, address, city, state, zip, url) {
+      function Event(resultNumber, name, org, time, address, city, state, zip, description, url) {
         this.resultNumber = resultNumber;
         this.name = name;
         this.org = org;
@@ -25,10 +25,11 @@ $(document).ready(function () {
         this.city = city;
         this.state = state;
         this.zip = zip;
+        this.description = description;
         this.url = url;
       }
 
-      var event, resultNumber, name, org, time, prettyDate, address, city, state, zip, url;
+      var event, resultNumber, name, org, time, prettyDate, address, city, state, zip, description, url;
 
       for (var i = 0; i < results.length; i++) {
         resultNumber = i;
@@ -58,7 +59,7 @@ $(document).ready(function () {
         if ('group' in results[i]) {
           org = results[i].group.name;
         } else {
-          org = ' ';
+          org = '';
         }
         if ('name' in results[i]) {
           name = results[i].name;
@@ -76,12 +77,17 @@ $(document).ready(function () {
         } else {
           time = '';
         }
+        if ('description' in results[i]) {
+          description = results[i].description;
+        } else {
+          description = '';
+        }
 
-        event = new Event(resultNumber, name, org, prettyDate, address, city, state, zip, url);
+        event = new Event(resultNumber, name, org, prettyDate, address, city, state, zip, description, url);
         events.push(event);
       }
       events.forEach(function (entry) {
-        var html = '<div class="row entry" data-event-id="' + entry.resultNumber + '">' + '<div class="col-xs-12">' + '<div class="card">' + '<div class="card-block">' + '<a class="clickable" href="' + entry.url + '">' + '<h4 class="card-title">' + entry.name.substr(0, 60) + '...' + '</h4>' + '<h6 class="card-subtitle mb-2 text-muted">' + entry.org + '</h6>' + '</a>' + '<p class="card-text">' + entry.time + '</p>' + '<p class="card-text">' + entry.address + '</p>' + '<p class="card-text">' + entry.city + ' ' + entry.state + ' ' + entry.zip + '</p>' + '</div>' + '<form action="/events/new/meetup/confirm" method="POST">' + '<button class="import_button btn">Import This Event</button>' + '</form>' + '</div>' + '</div>' + '</div>';
+        var html = '<div class="row entry" data-event-id="' + entry.resultNumber + '">' + '<div class="col-xs-12">' + '<div class="card">' + '<div class="card-block">' + '<a class="clickable" href="' + entry.url + '">' + '<h4 class="card-title">' + entry.name.substr(0, 60) + '...' + '</h4>' + '<h6 class="card-subtitle mb-2 text-muted">' + entry.org + '</h6>' + '</a>' + '<p class="card-text">' + entry.address + '</p>' + '<p class="card-text">' + entry.city + ' ' + entry.state + ' ' + entry.zip + '</p>' + '</div>' + '<form action="/events/new/meetup/confirm" method="POST">' + '<button class="import_button btn">Import This Event</button>' + '</form>' + '</div>' + '</div>' + '</div>';
         $('#search_results').append(html);
       });
     });
@@ -97,18 +103,22 @@ $(document).ready(function () {
   });
 
   $('#search_results').on('click', '.entry .import_button', function (event) {
-    var id = $(this).parents('.entry').data('event-id');
-    var eventToSave = events[id];
+    event.preventDefault();
+    var which = $(this).parents('.entry').data('event-id');
+    var eventToSave = events[which];
     delete eventToSave.resultNumber;
     console.log(eventToSave);
     $.ajax({
       type: 'POST',
-      url: '/events/new/meetup/confirm',
+      url: '/events/new/import',
       data: eventToSave,
       dataType: 'json'
+    }).done(function () {
+      console.log('Made the POST req, making a GET request now...');
+      window.location.replace('/events/new/meetup/saved');
     });
-  });
-});
+  }); //Import event event handler
+}); //document ready
 
 function prettifyDate(date) {
   //This was annoying.

@@ -63,7 +63,7 @@ function searchForEvent(req, res) {
 
 function populateForm(req, res) {
     console.log('populate form route hit');
-    res.render('events/confirm_new', {eventToSave: req.body});
+    res.json({eventToSave: req.body});
 }
 
 function saveEvent(req, res) {

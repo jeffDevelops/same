@@ -14,7 +14,7 @@ const express = require('express'),
       cookieParser = require('cookie-parser'),
       methodOverride = require('method-override');
 
-const keys = require('./keys.js');
+const keys = process.env.meetupAPIKey || require('./env.js');
 
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/same');
 

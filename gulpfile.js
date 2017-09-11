@@ -12,10 +12,9 @@ gulp.task('default', ['sass', 'front-end-scripts', 'model-scripts', 'config-scri
 	gulp.watch('src/public/**/*.scss', ['sass']); //Frontend Sass
 	gulp.watch('src/public/**/*.js', ['front-end-scripts']);
 	gulp.watch('src/views/**/*.ejs', ['views-scripts']);
-	//Client-side JS and Templates
 	gulp.watch('src/models/**/*.js', ['model-scripts']); //Model Scripts
-	gulp.watch('src/config/**/*.js', ['config-scripts']);
-	gulp.watch('src/controllers/**/*.js', ['controller-scripts']);
+	gulp.watch('src/config/*.js', ['config-scripts']);
+	gulp.watch('src/controllers/*.js', ['controller-scripts']);
 	gulp.watch('src/*.js', ['back-end-scripts']); //Root-level Backend Scripts
 });
 

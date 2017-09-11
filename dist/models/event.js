@@ -11,7 +11,8 @@ const Event = new Schema({
   state: String,
   zip: String,
   description: String,
-  url: String
+  url: String,
+  eventCode: String
 });
 
 module.exports = mongoose.model('Event', Event);

@@ -89,6 +89,14 @@ function renderMyEvents(req, res) {
   });
 }
 
+function renderShowPage(req, res) {
+  db.Event.find({_id: req.params.id}, function(err, doc) {
+    if (err) throw err;
+    console.log(doc);
+    res.render('events/detail', {event: doc});
+  });
+}
+
 module.exports = {
   getLanding: getLanding,
   postRegister: postRegister,
@@ -100,5 +108,6 @@ module.exports = {
   searchForEvent: searchForEvent,
   populateForm: populateForm,
   saveEvent: saveEvent,
-  renderMyEvents: renderMyEvents //EVENTS INDEX 
+  renderMyEvents: renderMyEvents, //EVENTS INDEX
+  renderShowPage: renderShowPage
 };

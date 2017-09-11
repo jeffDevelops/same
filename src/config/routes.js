@@ -55,5 +55,8 @@ router.route('/events')
       .get(authorizeUser, usersController.renderMyEvents)
       .post(authorizeUser, usersController.saveEvent);
 
+//EVENTS SHOW (DETAIL)
+router.route('/events/:id')
+      .get(authorizeUser, usersController.renderShowPage);
 
 module.exports = router;

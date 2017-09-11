@@ -86,7 +86,14 @@ function renderMyEvents(req, res) {
   db.Event.find({}, function(err, docs) {
     if (err) throw err;
     res.render('events/my_events',{ myEvents: docs});
-    console.log(docs);
+  });
+}
+
+function renderShowPage(req, res) {
+  db.Event.find({_id: req.params.id}, function(err, doc) {
+    if (err) throw err;
+    console.log(doc);
+    res.render('events/detail', {event: doc});
   });
 }
 
@@ -101,5 +108,6 @@ module.exports = {
   searchForEvent: searchForEvent,
   populateForm: populateForm,
   saveEvent: saveEvent,
-  renderMyEvents: renderMyEvents //EVENTS INDEX 
+  renderMyEvents: renderMyEvents, //EVENTS INDEX
+  renderShowPage: renderShowPage
 };

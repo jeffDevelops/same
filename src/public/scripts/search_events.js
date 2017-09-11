@@ -180,7 +180,6 @@ function renderModal(data) {
   '</div>';
   $('#new_with_meetup').append(modal);
   $('body').css('overflow', 'hidden');
-
 }
 
 function prettifyDate(date) { //This was annoying.

@@ -16,7 +16,7 @@ $(document).ready(function () {
       dataType: 'json'
     }).done(function (data) {
       var results = data.results; //Everything we get back
-      function Event(resultNumber, name, org, time, address, city, state, zip, description, url) {
+      function Event(resultNumber, name, org, time, address, city, state, zip, description, url, eventCode) {
         this.resultNumber = resultNumber;
         this.name = name;
         this.org = org;
@@ -27,9 +27,10 @@ $(document).ready(function () {
         this.zip = zip;
         this.description = description;
         this.url = url;
+        this.eventCode = eventCode;
       }
 
-      var event, resultNumber, name, org, time, prettyDate, address, city, state, zip, description, url;
+      var event, resultNumber, name, org, time, prettyDate, address, city, state, zip, description, url, eventCode;
 
       for (var i = 0; i < results.length; i++) {
         resultNumber = i;
@@ -83,7 +84,9 @@ $(document).ready(function () {
           description = '';
         }
 
-        event = new Event(resultNumber, name, org, prettyDate, address, city, state, zip, description, url);
+        eventCode = '';
+
+        event = new Event(resultNumber, name, org, prettyDate, address, city, state, zip, description, url, eventCode);
         events.push(event);
       }
       events.forEach(function (entry) {
@@ -113,12 +116,19 @@ $(document).ready(function () {
       url: '/events/new/import',
       data: eventToSave,
       dataType: 'json'
-    }).done(function () {
-      console.log('Made the POST req, making a GET request now...');
-      window.location.replace('/events/new/meetup/saved');
-    });
-  }); //Import event event handler
+    }).done(function (savedEvent) {
+      console.log('Made the POST req, rendering the populated modal now...');
+      console.log(savedEvent);
+      renderModal(savedEvent);
+    }); //Import event event handler
+  });
 }); //document ready
+
+function renderModal(data) {
+  var modal = '' + '<div id="confirm">' + '<div class="container-fluid">' + '<a id="confirm_back_button" class="back_button" href="/events/new/meetup"><i class="fa fa-chevron-left" aria-hidden="true"></i>Back</a>' + '<div class="col-xs-2"></div>' + '<div class="col-xs-8">' + '<form action="/events" method="POST">' + '<h3>Confirm Event Details</h3>' + '<div class="form-group">' + '<label for="eventName">Event Name</label>' + '<input id="eventName" class="form-control" type="text" value="' + data.eventToSave.name + '" name="name">' + '</div>' + '<div class="form-group">' + '<label for="eventOrg">Organization Name</label>' + '<input id="eventOrg" class="form-control" type="text" value="' + data.eventToSave.org + '" name="organization">' + '</div>' + '<div class="form-group">' + '<label for="eventTime">Event Time</label>' + '<input id="eventTime" class="form-control" type="text" value="' + data.eventToSave.time + '" name="time">' + '</div>' + '<div class="form-group">' + '<label for="eventAddress">Event Address</label>' + '<input id="eventAddress" class="form-control" type="text" value="' + data.eventToSave.address + '" name="address">' + '</div>' + '<div class="form-group">' + '<label for="eventCity">City</label>' + '<input id="eventCity" class="form-control" type="text" value="' + data.eventToSave.city + '" name="city">' + '</div>' + '<div class="form-group col-xs-6 state">' + '<label for="eventState">State</label>' + '<input id="eventState" class="form-control" type="text" value="' + data.eventToSave.state + '" name="state">' + '</div>' + '<div class="form-group col-xs-6 zip">' + '<label for="eventZip">Zipcode</label>' + '<input id="eventZip"  class="form-control" type="text" value="' + data.eventToSave.zip + '" name="zip">' + '</div>' + '<div class="form-group">' + '<label for="eventDescription">Event Description</label>' + '<textarea id="eventDescription" class="form-control" name="description">' + data.eventToSave.description + '</textarea>' + '</div>' + '<div class="form-group">' + '<label for="eventCode">Event Code</label>' + '<input id="eventCode" placeholder="Your guests will use this code to check into your event." class="form-control" type="text" value="" />' + '</div>' + '<input type="submit" value="Confirm Event" />' + '</form>' + '</div>' + '<div class="col-xs-2"></div>' + '</div>' + '</div>';
+  $('#new_with_meetup').append(modal);
+  $('body').css('overflow', 'hidden');
+}
 
 function prettifyDate(date) {
   //This was annoying.

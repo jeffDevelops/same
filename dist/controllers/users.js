@@ -1,14 +1,14 @@
 /* jshint esversion: 6 */
 const passport = require('passport');
-const keys = require('../keys.js');
+const keys = require('../env.js');
 const request = require('request');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 const sanitize = require('sanitize-html');
 
-const db = require('../models/index.js'); 
+const db = require('../models/index.js');
 
-function getLanding(req, res) { //hi
+function getLanding(req, res) {
   res.render('landing.ejs', { 
     signupMessage: req.flash('signupMessage'), 
     loginMessage: req.flash('loginMessage') 
@@ -63,7 +63,7 @@ function searchForEvent(req, res) {
 
 function populateForm(req, res) {
     console.log('populate form route hit');
-    res.render('events/confirm_new', {eventToSave: req.body});
+    res.json({eventToSave: req.body});
 }
 
 function saveEvent(req, res) {
@@ -86,6 +86,7 @@ function renderMyEvents(req, res) {
   db.Event.find({}, function(err, docs) {
     if (err) throw err;
     res.render('events/my_events',{ myEvents: docs});
+    console.log(docs);
   });
 }
 

@@ -27,7 +27,7 @@ router.route('/login')
 
 //Log User Out
 router.route("/logout")
-  .get(usersController.getLogout);
+      .get(usersController.getLogout);
 
 //Renders split users' experience page
 router.route('/differentiate')
@@ -44,15 +44,16 @@ router.route('/events/new/search')
 
 
 router.route('/events/new/meetup')
-      .post(authorizeUser, usersController.saveEvent)
       .get(usersController.searchForEvent);
+
 
 router.route('/events/new/import')
       .post(usersController.populateForm);
 
 //EVENTS INDEX
 router.route('/events')
-      .get(authorizeUser, usersController.renderMyEvents);
+      .get(authorizeUser, usersController.renderMyEvents)
+      .post(authorizeUser, usersController.saveEvent);
 
 
 module.exports = router;

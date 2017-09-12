@@ -51,7 +51,7 @@ function renderSearch (req, res) {
 }
 
 function searchForEvent(req, res) {
-  let URL = `https://api.meetup.com/find/events/?text=${req.body.searchterm}&key=${keys.meetupAPIKey}`;
+  let URL = `https://api.meetup.com/find/events/?text=${req.body.searchterm}&key=${keys}`;
   request(URL, function(error, response, body) {
     if (error) throw error;
     body = JSON.parse(body);

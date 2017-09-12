@@ -1,6 +1,6 @@
 /* jshint esversion: 6 */
 const passport = require('passport');
-const keys = process.env.meetupAPIKey || require('../env.js');
+const keys = require('../env.js');
 const request = require('request');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
@@ -51,7 +51,7 @@ function renderSearch (req, res) {
 }
 
 function searchForEvent(req, res) {
-  let URL = `https://api.meetup.com/find/events/?text=${req.body.searchterm}&key=${keys}`;
+  let URL = `https://api.meetup.com/find/events/?text=${req.body.searchterm}&key=${process.env.meetupAPIKey || keys.meetupAPIKey}`;
   request(URL, function(error, response, body) {
     if (error) throw error;
     body = JSON.parse(body);

@@ -21,7 +21,6 @@ function postRegister(req, res, next) {
     failureRedirect: '/',
     failureFlash: true
   });
-  console.log('Did we get here?');
   return signupStrategy(req, res, next);
 } 
 
@@ -40,7 +39,6 @@ function getLogout(request, response, next) {
 }
 
 function differentiateUser(req, res) {
-  console.log('Hooray, something new is happening!');
   res.render('user_split.ejs');
 }
 
@@ -62,7 +60,6 @@ function searchForEvent(req, res) {
 }
 
 function populateForm(req, res) {
-    console.log('populate form route hit');
     res.json({eventToSave: req.body});
 }
 
@@ -75,7 +72,8 @@ function saveEvent(req, res) {
       city: req.body.city,
       state: req.body.state,
       zip: req.body.zip,
-      description: req.body.description
+      description: req.body.description,
+      eventCode: req.body.eventCode
     }, function(err, createdEvent) {
       if (err) throw err;
       res.redirect('/events');
@@ -90,11 +88,40 @@ function renderMyEvents(req, res) {
 }
 
 function renderShowPage(req, res) {
-  db.Event.find({_id: req.params.id}, function(err, doc) {
+  db.Event.findOne({_id: req.params.id}, function(err, doc) {
     if (err) throw err;
-    console.log(doc);
     res.render('events/detail', {event: doc});
   });
+}
+
+function updateDoc(req, res) {
+  console.log(typeof(req.body));
+  let updatedEvent = req.body;
+  console.log('Updated Event: ' + JSON.stringify(updatedEvent));
+  db.Event.findOneAndUpdate({ "_id": req.params.id }, 
+    { "$set": 
+      {
+        "name": updatedEvent.name,
+        "organization": updatedEvent.org,
+        "time": updatedEvent.time,
+        "address": updatedEvent.address,
+        "city": updatedEvent.city,
+        "state": updatedEvent.state,
+        "zip": updatedEvent.zip,
+        "description": updatedEvent.description,
+        "eventCode": updatedEvent.code
+      }
+    }, { new: true }).exec(function(err, updatedDoc) {
+    if (err) throw err;
+  });
+  res.redirect('/events/' + req.params.id);
+}
+
+function deleteEvent(req, res) {
+  db.Event.findOneAndRemove({_id: req.params.id}, function(err, deletedDoc) {
+    if (err) throw err;
+  });
+  res.redirect('/events');
 }
 
 module.exports = {
@@ -107,7 +134,9 @@ module.exports = {
   renderSearch: renderSearch,
   searchForEvent: searchForEvent,
   populateForm: populateForm,
-  saveEvent: saveEvent,
+  saveEvent: saveEvent, //EVENTS CREATE
   renderMyEvents: renderMyEvents, //EVENTS INDEX
-  renderShowPage: renderShowPage
+  renderShowPage: renderShowPage, //EVENTS READ
+  updateDoc: updateDoc,
+  deleteEvent: deleteEvent //EVENT DELETE
 };

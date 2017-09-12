@@ -124,10 +124,10 @@ $(document).ready(function() {
 
 function renderModal(data) {
   var modal = '' +
-  '<div id="confirm">' + 
+  '<div class="confirm">' + 
   '<div class="container-fluid">' +
 
-    '<a id="confirm_back_button" class="back_button" href="/events/new/meetup"><i class="fa fa-chevron-left" aria-hidden="true"></i>Back</a>' +
+    '<a id="confirm_back_button" class="back_button" href="/events/new/search"><i class="fa fa-chevron-left" aria-hidden="true"></i></a>' +
 
     '<div class="col-xs-2"></div>' +
 
@@ -170,7 +170,7 @@ function renderModal(data) {
         '</div>' +
         '<div class="form-group">' +
           '<label for="eventCode">Event Code</label>' +
-          '<input id="eventCode" placeholder="Your guests will use this code to check into your event." class="form-control" type="text" value="" />' +
+          '<input id="eventCode" placeholder="Your guests will use this code to check into your event." name="eventCode" class="form-control" type="text" value="" />' +
         '</div>' +
         '<input type="submit" value="Confirm Event" />' +
       '</form>' +
@@ -179,6 +179,7 @@ function renderModal(data) {
   '</div>' +
   '</div>';
   $('#new_with_meetup').append(modal);
+  $('.confirm').css('display', 'block');
   $('body').css('overflow', 'hidden');
 }
 

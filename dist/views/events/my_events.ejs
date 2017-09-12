@@ -15,8 +15,13 @@
 					<div class="card-block">
 						<a class="clickable" href="/events/<%= myEvents[i]._id %>">
 							<h4 class="card-title"> <%= myEvents[i].name/*.substr(0, 60) + '...'*/ %></h4>
-							<h6 class="card-subtitle mb-2 text-muted"><%= myEvents[i].org %></h6>
+							<h6 class="card-subtitle mb-2 text-muted">
+								<% if(myEvents[i].org) { %>
+									<%= myEvents[i].org.substr(0, 60) + '...' %>
+								<% } %>
+							</h6>
 						</a>
+						<p class="card-text"><%= myEvents[i].eventCode %></p>
 						<p class="card-text"><%= myEvents[i].time %></p>
 						<p class="card-text"><%= myEvents[i].address %></p>
 						<p class="card-text"><%= myEvents[i].city + ' ' + myEvents[i].state + ' ' + myEvents[i].zip %></p>

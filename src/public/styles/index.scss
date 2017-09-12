@@ -78,12 +78,16 @@ nav.navbar h1 {
 .navbar-default .navbar-nav li a:hover,
 .navbar-default .navbar-nav li a:active,
 .navbar-default .navbar-nav li a:focus {
-	color: $magenta;
+	color: $darkRed;
 }
 
 .navbar-default .navbar-nav .border_bottom {
 	border-bottom: 1px solid #fff;
 }
+
+#bs-example-navbar-collapse-1 {
+	background: $magenta;
+}	
 
 /* END NAVBAR STYLES */
 
@@ -259,7 +263,7 @@ i.fa {
 	color: $magenta;
 }
 
-.import_button {
+.same_button {
 	position: absolute;
 	bottom: 10px;
 	right: 10px;
@@ -267,9 +271,17 @@ i.fa {
 	color: #fff;
 }
 
-.import_button:hover,
-.import_button:active, 
-.import_button:focus {
+#confirm_delete.same_button {
+	position: static;
+}
+
+.btn.btn-default.same_button.edit {
+	right: 120px;
+}
+
+.same_button:hover,
+.same_button:active, 
+.same_button:focus {
 	color: $magenta;
 	outline: none;
 	background: #fff;
@@ -306,8 +318,9 @@ nav {
 	background: $magenta;
 }
 
-#confirm {
-	position: absolute;
+.confirm {
+	display: none;
+	position: fixed;
 	overflow: hidden;
 	z-index: 2;
 	background: rgba(0, 0, 0, .9);
@@ -315,4 +328,30 @@ nav {
 	left: 0;
 	width: 100%;
 	height: 100%;
+}
+
+//Event Detail Page 
+
+.card.detail {
+	height: 100%;
+	padding: 20px 20px 75px 20px;
+	p {
+		margin: 10px 0;
+	}
+}
+
+.confirm {
+	.content {
+		width:80%;
+		margin: 35vh auto;
+		.back {
+			position: static;
+		}
+		.delete {
+			background: $darkRed;
+		}
+		.delete:hover {
+			background: #fff;
+		}
+	}
 }

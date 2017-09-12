@@ -46,7 +46,6 @@ router.route('/events/new/search')
 router.route('/events/new/meetup')
       .get(usersController.searchForEvent);
 
-
 router.route('/events/new/import')
       .post(usersController.populateForm);
 
@@ -57,6 +56,8 @@ router.route('/events')
 
 //EVENTS SHOW (DETAIL)
 router.route('/events/:id')
-      .get(authorizeUser, usersController.renderShowPage);
+      .get(/*authorizeUser,*/usersController.renderShowPage)
+      .put(/*authorizeUser,*/usersController.updateDoc)
+      .delete(/*authorizeUser,*/usersController.deleteEvent);
 
 module.exports = router;
